@@ -1,8 +1,13 @@
 package com.java.security.framework.encrypto;
 
+import java.util.ArrayList;
+import java.util.List;
+import com.java.security.framework.common.*;
+
 public class IEncryptionImpl implements IEncryptionDeclaration {
-	@Override
-	public byte[] encrypt(byte[] data) {
+	
+ 	@Override
+	public byte[] encrypt_BasicCrypto(byte[] data) {
 		byte[] enc = new byte[data.length];
 		
 		for(int i = 0;i<data.length;i++){
@@ -12,7 +17,7 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
 	}
 
 	@Override
-	public byte[] decrypt(byte[] data) {
+	public byte[] decrypt_BasicCrypto(byte[] data) {
 		byte[] enc = new byte[data.length];
 		
 		for(int i = 0;i<data.length;i++){
@@ -20,4 +25,14 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
 		}
 		return enc;
 	}
+public static List<String> listOfAlgorithms() {
+	List<String> algorithmList = new ArrayList<String>();
+	
+	
+	algorithmList.add(ConstantsUtils.BasicEncryptoText);
+	
+	return algorithmList;
+	
+}
+
 }
