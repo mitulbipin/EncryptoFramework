@@ -25,7 +25,7 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
 		}
 		return enc;
 	}
-public static List<String> listOfAlgorithms() {
+public static List<String> listOfAlgorithms() {//Enter password in order to add a new algorithm into the list
 	List<String> algorithmList = new ArrayList<String>();
 	
 	
@@ -33,6 +33,6 @@ public static List<String> listOfAlgorithms() {
 	
 	return algorithmList;
 	
-}
+}//plan to move the method to the common package.
 
 }
