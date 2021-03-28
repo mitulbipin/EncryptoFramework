@@ -1,8 +1,6 @@
 package com.java.security.framework.encrypto;
 
-import java.util.ArrayList;
-import java.util.List;
-import com.java.security.framework.common.*;
+import com.java.security.framework.common.ConstantsUtils;
 
 public class IEncryptionImpl implements IEncryptionDeclaration {
 	
@@ -25,14 +23,26 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
 		}
 		return enc;
 	}
-public static List<String> listOfAlgorithms() {//Enter password in order to add a new algorithm into the list
-	List<String> algorithmList = new ArrayList<String>();
+
+	@Override
+	public String encrypt_SubstitutionAlgorithm(String data) {
+		StringBuilder sb = new StringBuilder(data.length());
+
+		for(char c : data.toCharArray())
+		sb.append(ConstantsUtils.SubstitutionAlgoKeys.charAt((int)c - 32));
+
+		return sb.toString();
+
+	}
 	
-	
-	algorithmList.add(ConstantsUtils.BasicEncryptoText);
-	
-	return algorithmList;
-	
-}//plan to move the method to the common package.
+	@Override
+	public String decrypt_SubstitutionAlgorithm(String data) {
+		StringBuilder sb = new StringBuilder(data.length());
+
+		for(char c : data.toCharArray())
+		sb.append((char) (ConstantsUtils.SubstitutionAlgoKeys.indexOf((int) c) + 32));
+
+		return sb.toString();
+	}
 
 }
