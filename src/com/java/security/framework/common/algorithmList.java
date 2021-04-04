@@ -9,6 +9,7 @@ public class algorithmList {
 		HashMap<String, String> algorithmList = new HashMap<String, String>();
 		algorithmList.put("1", ConstantsUtils.BasicEncryptoText);
 		algorithmList.put("2", ConstantsUtils.SubstitutionAlgorithmText);
+		algorithmList.put("3", ConstantsUtils.RSAlgorithmText);
 		
 		return algorithmList;
 	}

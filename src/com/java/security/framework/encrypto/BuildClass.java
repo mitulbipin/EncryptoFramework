@@ -10,7 +10,7 @@ public class BuildClass  {
 	static Scanner input = new Scanner(System.in);
 	static IEncryptionImpl crypto = new IEncryptionImpl();
 
-	public static void main(String args[])
+	public static void main(String args[]) throws Exception
 	{
 	
 		System.out.print("Enter the text to be encrypted: ");
@@ -18,8 +18,8 @@ public class BuildClass  {
 		System.out.print(algorithmList.listOfAlgorithms());	
 	
 //		AlgorithmOutput.basicEncryptoAlgorithm(data);
-		AlgorithmOutput.substitutionAlgorithm(data);
-	
+//		AlgorithmOutput.substitutionAlgorithm(data);
+		AlgorithmOutput.RSAEncryptionAlgorithm(data);
 	
 	}
 }

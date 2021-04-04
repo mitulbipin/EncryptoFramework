@@ -20,4 +20,10 @@ public class AlgorithmOutput{
 		System.out.println("\nThe encrypted text in "+ConstantsUtils.SubstitutionAlgorithmText+" is "
 							+crypto.encrypt_SubstitutionAlgorithm(data));
 	}
+	
+	public static void RSAEncryptionAlgorithm(String data) throws Exception {
+		System.out.println("\nThe encrypted text in "+ConstantsUtils.RSAlgorithmText+" is "
+				+crypto.encrypt_RSAEncryption(data));
+
+	}
 }

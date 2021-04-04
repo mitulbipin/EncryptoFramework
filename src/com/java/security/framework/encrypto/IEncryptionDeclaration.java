@@ -6,4 +6,6 @@ public interface IEncryptionDeclaration {
 	
 	String encrypt_SubstitutionAlgorithm(String data);
 	String decrypt_SubstitutionAlgorithm(String data);
+	
+	String encrypt_RSAEncryption(String data) throws Exception;
 }

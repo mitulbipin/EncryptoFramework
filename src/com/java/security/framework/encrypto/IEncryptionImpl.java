@@ -1,6 +1,8 @@
 package com.java.security.framework.encrypto;
 
 import com.java.security.framework.common.ConstantsUtils;
+import java.security.*;
+import javax.crypto.*;
 
 public class IEncryptionImpl implements IEncryptionDeclaration {
 	
@@ -43,6 +45,21 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
 		sb.append((char) (ConstantsUtils.SubstitutionAlgoKeys.indexOf((int) c) + 32));
 
 		return sb.toString();
+	}
+	
+	public String encrypt_RSAEncryption(String data) throws Exception {
+		
+		Signature sign = Signature.getInstance("SHA256withRSA");
+		KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance("RSA");
+		keyPairGen.initialize(2048);
+		KeyPair pair = keyPairGen.generateKeyPair(); 
+		Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+		cipher.init(Cipher.ENCRYPT_MODE, pair.getPublic());
+		byte[] input = data.getBytes();
+		cipher.update(input);
+		byte[] cipherText = cipher.doFinal();
+		return new String(cipherText,"UTF8");
+
 	}
 
 }
