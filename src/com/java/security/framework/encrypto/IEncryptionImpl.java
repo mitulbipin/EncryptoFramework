@@ -1,10 +1,24 @@
 package com.java.security.framework.encrypto;
 
+import java.io.File;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+
+import javax.crypto.Cipher;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import com.java.security.framework.common.ConstantsUtils;
-import java.security.*;
-import javax.crypto.*;
 
 public class IEncryptionImpl implements IEncryptionDeclaration {
+	
+    File fXmlFile = new File("testdata.xml");
+    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 	
  	@Override
 	public byte[] encrypt_BasicCrypto(byte[] data) {
@@ -49,17 +63,23 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
 	
 	public String encrypt_RSAEncryption(String data) throws Exception {
 		
-		Signature sign = Signature.getInstance("SHA256withRSA");
-		KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance("RSA");
+	    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+	    Document doc = dBuilder.parse(fXmlFile);
+	    doc.getDocumentElement().normalize();
+		NodeList nList = doc.getElementsByTagName("Algorithm");
+	    Node nNode = nList.item(1);
+        Element eElement = (Element) nNode;
+        
+//		Signature sign = Signature.getInstance("SHA256withRSA");
+		KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance(eElement.getElementsByTagName("RSAText").item(0).getTextContent());
 		keyPairGen.initialize(2048);
 		KeyPair pair = keyPairGen.generateKeyPair(); 
-		Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+		Cipher cipher = Cipher.getInstance(eElement.getElementsByTagName("cipherInstance").item(0).getTextContent());
 		cipher.init(Cipher.ENCRYPT_MODE, pair.getPublic());
 		byte[] input = data.getBytes();
 		cipher.update(input);
 		byte[] cipherText = cipher.doFinal();
-		return new String(cipherText,"UTF8");
-
+		return new String(cipherText,"UTF-8");
 	}
 
 }

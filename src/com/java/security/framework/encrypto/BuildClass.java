@@ -12,7 +12,6 @@ public class BuildClass  {
 
 	public static void main(String args[]) throws Exception
 	{
-	
 		System.out.print("Enter the text to be encrypted: ");
 		String data = input.next();
 		System.out.print(algorithmList.listOfAlgorithms());	
@@ -20,6 +19,6 @@ public class BuildClass  {
 //		AlgorithmOutput.basicEncryptoAlgorithm(data);
 //		AlgorithmOutput.substitutionAlgorithm(data);
 		AlgorithmOutput.RSAEncryptionAlgorithm(data);
-	
+
 	}
 }

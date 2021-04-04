@@ -1,6 +1,7 @@
 package com.java.security.framework.algorithm;
 
 import java.util.Scanner;
+import java.io.*;
 
 import com.java.security.framework.common.ConstantsUtils;
 import com.java.security.framework.encrypto.IEncryptionImpl;
@@ -24,6 +25,8 @@ public class AlgorithmOutput{
 	public static void RSAEncryptionAlgorithm(String data) throws Exception {
 		System.out.println("\nThe encrypted text in "+ConstantsUtils.RSAlgorithmText+" is "
 				+crypto.encrypt_RSAEncryption(data));
-
+			FileWriter RSAEncryptionFile = new FileWriter("RSAEncryptionFile.txt");
+			RSAEncryptionFile.write(crypto.encrypt_RSAEncryption(data));
+			RSAEncryptionFile.close();
 	}
 }
