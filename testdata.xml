@@ -1,10 +1,15 @@
 <?xml version="1.0"?>
 <testdata>
 	<Algorithm></Algorithm>
-	<Algorithm id ="1">
+	<Algorithm id="1">
 		<RSAText>RSA</RSAText>
 		<cipherInstance>RSA/ECB/PKCS1Padding</cipherInstance>
 	</Algorithm>
 
-	
+	<Algorithm id="4">
+		<DSAText>DSA</DSAText>
+		<Value>Asdfghjkl1234@</Value>
+	</Algorithm>
+
+
 </testdata>

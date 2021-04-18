@@ -6,7 +6,8 @@ public class ConstantsUtils {
 	public final static String frameworkTitle = "------------------->>ENCRYPTO FRAMEWORK<<-------------------";
 	public final static String frameworkLines_Horizontal = "==============================================================";
 	public final static String inputText = "Enter the text to be encrypted: ";
-	public final static String userInputText="Please choose the encryption type from the list: ";
+	public final static String userInputText = "Please choose the encryption type from the list: ";
+	public final static String AlgorithmText = "Algorithm";
 
 	public static final String BasicEncryptoText = "Basic Encrypto Algorithm";
 	public static final String SubstitutionAlgorithmText = "Substitution Algorithm";

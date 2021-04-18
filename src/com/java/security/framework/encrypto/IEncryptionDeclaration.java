@@ -10,4 +10,6 @@ public interface IEncryptionDeclaration {
 	String decrypt_SubstitutionAlgorithm(String data);
 
 	String encrypt_RSAEncryption(String data) throws Exception;
+
+	public boolean generateAndVerifyDigitalSignatures(String data) throws Exception;
 }

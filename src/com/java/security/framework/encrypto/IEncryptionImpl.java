@@ -3,6 +3,8 @@ package com.java.security.framework.encrypto;
 import java.io.File;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.security.PrivateKey;
+import java.security.Signature;
 
 import javax.crypto.Cipher;
 import javax.xml.parsers.DocumentBuilder;
@@ -66,11 +68,10 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse(fXmlFile);
 		doc.getDocumentElement().normalize();
-		NodeList nList = doc.getElementsByTagName("Algorithm");
+		NodeList nList = doc.getElementsByTagName(ConstantsUtils.AlgorithmText);
 		Node nNode = nList.item(1);
 		Element eElement = (Element) nNode;
 
-//		Signature sign = Signature.getInstance("SHA256withRSA");
 		KeyPairGenerator keyPairGen = KeyPairGenerator
 				.getInstance(eElement.getElementsByTagName("RSAText").item(0).getTextContent());
 		keyPairGen.initialize(2048);
@@ -83,4 +84,43 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
 		return new String(cipherText, "UTF-8");
 	}
 
+	public boolean generateAndVerifyDigitalSignatures(String data) throws Exception {
+
+		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		Document doc = dBuilder.parse(fXmlFile);
+		doc.getDocumentElement().normalize();
+		NodeList nList = doc.getElementsByTagName(ConstantsUtils.AlgorithmText);
+		Node nNode = nList.item(4);
+		Element eElement = (Element) nNode;
+
+		KeyPairGenerator keyPairGen = KeyPairGenerator
+				.getInstance(eElement.getElementsByTagName("DSAText").item(0).getTextContent());
+		keyPairGen.initialize(2048);
+		KeyPair pair = keyPairGen.generateKeyPair();
+		PrivateKey privKey_UserInput = pair.getPrivate();
+		PrivateKey privKey_BackendValue = pair.getPrivate();
+
+		Signature sign_UserInput = Signature.getInstance("SHA256withDSA");
+		Signature sign_BackendValue = Signature.getInstance("SHA256withDSA");
+
+		sign_UserInput.initSign(privKey_UserInput);
+		sign_BackendValue.initSign(privKey_BackendValue);
+
+		byte[] bytes_UserInput = data.getBytes();
+		byte[] bytes_BackendValue = eElement.getElementsByTagName("Value").item(0).getTextContent().getBytes();
+
+		sign_UserInput.update(bytes_UserInput);
+		sign_BackendValue.update(bytes_BackendValue);
+
+		byte[] signature_BackendValue = sign_BackendValue.sign();
+
+		sign_UserInput.initVerify(pair.getPublic());
+		sign_BackendValue.initVerify(pair.getPublic());
+		sign_UserInput.update(bytes_UserInput);
+		sign_BackendValue.initVerify(pair.getPublic());
+		sign_BackendValue.update(bytes_BackendValue);
+
+		return sign_UserInput.verify(signature_BackendValue);
+
+	}
 }
