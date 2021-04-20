@@ -38,7 +38,7 @@ public class BuildClass {
 			AlgorithmOutput.basicEncryptoAlgorithm(data);
 			break;
 		default:
-			System.out.println("Algorithm not available/ incorrect option");
+			System.out.println("\nAlgorithm not available/ incorrect option");
 
 		}
 	}
