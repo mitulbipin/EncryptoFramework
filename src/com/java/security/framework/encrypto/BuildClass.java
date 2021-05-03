@@ -8,7 +8,7 @@ import com.java.security.framework.common.ConstantsUtils;
 
 public class BuildClass {
 
-	static Scanner input = new Scanner(System.in);
+	static Scanner input = new Scanner(System.in).useDelimiter("\n");
 	static IEncryptionImpl crypto = new IEncryptionImpl();
 	static String data;
 	static int option;
@@ -18,13 +18,13 @@ public class BuildClass {
 		System.out.println(ConstantsUtils.frameworkLines_Horizontal);
 		System.out.print("\n" + ConstantsUtils.inputText);
 		data = input.next();
+		System.out.println(data);
 		algorithmList.listOfAlgorithms();
 		System.out.println("\n" + ConstantsUtils.frameworkLines_Horizontal);
 		algorithmSelector();
-
 	}
-	
-	public static void algorithmSelector() throws Exception  {
+
+	public static void algorithmSelector() throws Exception {
 		System.out.print("\n" + ConstantsUtils.userInputText);
 		option = input.nextInt();
 		switch (option) {
