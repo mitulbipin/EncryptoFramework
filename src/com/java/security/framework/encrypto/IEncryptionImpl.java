@@ -90,7 +90,7 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
 		Document doc = dBuilder.parse(fXmlFile);
 		doc.getDocumentElement().normalize();
 		NodeList nList = doc.getElementsByTagName(ConstantsUtils.AlgorithmText);
-		Node nNode = nList.item(4);
+		Node nNode = nList.item(2);
 		Element eElement = (Element) nNode;
 
 		KeyPairGenerator keyPairGen = KeyPairGenerator

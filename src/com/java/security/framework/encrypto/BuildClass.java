@@ -8,7 +8,7 @@ import com.java.security.framework.common.ConstantsUtils;
 
 public class BuildClass {
 
-	static Scanner input = new Scanner(System.in);
+	static Scanner input = new Scanner(System.in).useDelimiter("\n");
 	static IEncryptionImpl crypto = new IEncryptionImpl();
 	static String data;
 	static int option;
@@ -18,13 +18,12 @@ public class BuildClass {
 		System.out.println(ConstantsUtils.frameworkLines_Horizontal);
 		System.out.print("\n" + ConstantsUtils.inputText);
 		data = input.next();
-		algorithmList.listOfAlgorithms();
+		additionOfAlgorithm();
 		System.out.println("\n" + ConstantsUtils.frameworkLines_Horizontal);
 		algorithmSelector();
-
 	}
-	
-	public static void algorithmSelector() throws Exception  {
+
+	public static void algorithmSelector() throws Exception {
 		System.out.print("\n" + ConstantsUtils.userInputText);
 		option = input.nextInt();
 		switch (option) {
@@ -38,8 +37,17 @@ public class BuildClass {
 			AlgorithmOutput.basicEncryptoAlgorithm(data);
 			break;
 		default:
-			System.out.println("Algorithm not available/ incorrect option");
+			System.out.println("\nAlgorithm not available/ incorrect option");
 
 		}
+	}
+	
+	public static void additionOfAlgorithm() throws Exception {
+		System.out.println("Do you want to add a new algoritm? (Y/N)");
+		String option = input.next();
+		if(option.equals("Y"))
+			algorithmList.addAlgorithm();
+		else
+			algorithmList.listOfAlgorithms();
 	}
 }
