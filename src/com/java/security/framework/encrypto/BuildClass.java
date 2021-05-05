@@ -18,8 +18,7 @@ public class BuildClass {
 		System.out.println(ConstantsUtils.frameworkLines_Horizontal);
 		System.out.print("\n" + ConstantsUtils.inputText);
 		data = input.next();
-		System.out.println(data);
-		algorithmList.listOfAlgorithms();
+		additionOfAlgorithm();
 		System.out.println("\n" + ConstantsUtils.frameworkLines_Horizontal);
 		algorithmSelector();
 	}
@@ -41,5 +40,14 @@ public class BuildClass {
 			System.out.println("\nAlgorithm not available/ incorrect option");
 
 		}
+	}
+	
+	public static void additionOfAlgorithm() throws Exception {
+		System.out.println("Do you want to add a new algoritm? (Y/N)");
+		String option = input.next();
+		if(option.equals("Y"))
+			algorithmList.addAlgorithm();
+		else
+			algorithmList.listOfAlgorithms();
 	}
 }

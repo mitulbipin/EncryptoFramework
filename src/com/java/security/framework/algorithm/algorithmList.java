@@ -17,22 +17,20 @@ public class algorithmList {
 		algorithmList.put("2", ConstantsUtils.SubstitutionAlgorithmText);
 		algorithmList.put("3", ConstantsUtils.BasicEncryptoText);
 
+		System.out.println("\nList of algorithms available:");
+		for (String i : algorithmList.keySet())
+			System.out.println(i + ". " + algorithmList.get(i));
+	}
+	
+	public static void addAlgorithm() throws Exception{
 		System.out.print("\nEnter the password:");
 		String data = input.next();
 		if (crypto.generateAndVerifyDigitalSignatures(data)) {
-			System.out.println("Enter the following details:");
-			String algoSequence = checkForExistingSequenceNumber(algorithmList);
-			System.out.print("\nEnter the name of the new algorithm:");
-			String newAlgoInput = input.next();
-			algorithmList.put(algoSequence, newAlgoInput);
+			//SQL Database will be invoked
 
 		} else {
 			System.out.println("Incorrect password");
 		}
-
-		System.out.println("\nList of algorithms available:");
-		for (String i : algorithmList.keySet())
-			System.out.println(i + ". " + algorithmList.get(i));
 	}
 
 	public static String checkForExistingSequenceNumber(HashMap<String, String> algorithmList) {
