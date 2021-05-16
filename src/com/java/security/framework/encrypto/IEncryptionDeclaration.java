@@ -16,4 +16,9 @@ public interface IEncryptionDeclaration {
 	String encryptCaesarAlgorithm(String data);
 
 	String decryptCaesarAlgorithm(String data);
+
+	String encryptBlowfishAlgorithm(String data) throws Exception;
+
+	String decryptBlowfishAlgorithm(String data) throws Exception;
+
 }

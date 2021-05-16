@@ -1,6 +1,7 @@
 package com.java.security.framework.encrypto;
 
 import java.io.File;
+import java.nio.charset.Charset;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
@@ -8,6 +9,7 @@ import java.security.Signature;
 import java.util.Base64;
 
 import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -149,5 +151,29 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
 
 		String reversed = new StringBuffer(tmp.toString()).reverse().toString();
 		return new String(Base64.getDecoder().decode(reversed));
+	}
+
+	@Override
+	public String encryptBlowfishAlgorithm(String data) throws Exception {
+
+		SecretKeySpec key = new SecretKeySpec(data.getBytes(), "Blowfish");
+		Cipher cipher = Cipher.getInstance("Blowfish");
+		cipher.init(Cipher.ENCRYPT_MODE, key);
+
+		return Base64.getEncoder().encodeToString(cipher.doFinal(data.getBytes()));
+
+	}
+
+	@Override
+	public String decryptBlowfishAlgorithm(String data) throws Exception {
+
+		SecretKeySpec key = new SecretKeySpec(data.getBytes(), "Blowfish");
+		Cipher cipher = Cipher.getInstance("Blowfish");
+		cipher.init(Cipher.DECRYPT_MODE, key);
+		byte[] ecryptedtexttobytes = Base64.getDecoder().decode(data);
+		byte[] decrypted = cipher.doFinal(ecryptedtexttobytes);
+
+		return new String(decrypted, Charset.forName("UTF-8"));
+
 	}
 }

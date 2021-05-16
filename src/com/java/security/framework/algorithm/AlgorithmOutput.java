@@ -34,4 +34,10 @@ public class AlgorithmOutput {
 		System.out.println("\nThe encrypted text in " + ConstantsUtils.CaesarAlgorithmText + " is "
 				+ crypto.encryptCaesarAlgorithm(data));
 	}
+	
+	public static void blowFishAlgorithm(String data) throws Exception {
+		System.out.println("\nThe encrypted text in " + ConstantsUtils.BlowfishAlgorithmText + " is "
+				+ crypto.encryptBlowfishAlgorithm(data));
+	}
+	
 }

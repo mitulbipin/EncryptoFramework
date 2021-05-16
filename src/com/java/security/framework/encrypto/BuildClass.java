@@ -39,6 +39,9 @@ public class BuildClass {
 		case 4:
 			AlgorithmOutput.caesarAlgorithm(data);
 			break;
+		case 5: 
+			AlgorithmOutput.blowFishAlgorithm(data);
+			break;
 		default:
 			System.out.println("\nAlgorithm not available/ incorrect option");
 
