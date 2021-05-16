@@ -12,4 +12,8 @@ public interface IEncryptionDeclaration {
 	String encrypt_RSAEncryption(String data) throws Exception;
 
 	public boolean generateAndVerifyDigitalSignatures(String data) throws Exception;
+
+	String encryptCaesarAlgorithm(String data);
+
+	String decryptCaesarAlgorithm(String data);
 }

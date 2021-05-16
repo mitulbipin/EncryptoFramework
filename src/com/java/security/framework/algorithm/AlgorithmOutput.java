@@ -29,4 +29,9 @@ public class AlgorithmOutput {
 		RSAEncryptionFile.write(crypto.encrypt_RSAEncryption(data));
 		RSAEncryptionFile.close();
 	}
+	
+	public static void caesarAlgorithm(String data) {
+		System.out.println("\nThe encrypted text in " + ConstantsUtils.CaesarAlgorithmText + " is "
+				+ crypto.encryptCaesarAlgorithm(data));
+	}
 }

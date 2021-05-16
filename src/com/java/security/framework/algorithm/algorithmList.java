@@ -16,6 +16,7 @@ public class algorithmList {
 		algorithmList.put("1", ConstantsUtils.RSAlgorithmText);
 		algorithmList.put("2", ConstantsUtils.SubstitutionAlgorithmText);
 		algorithmList.put("3", ConstantsUtils.BasicEncryptoText);
+		algorithmList.put("4", ConstantsUtils.CaesarAlgorithmText);
 
 		System.out.println("\nList of algorithms available:");
 		for (String i : algorithmList.keySet())

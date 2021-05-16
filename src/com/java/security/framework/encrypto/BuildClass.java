@@ -36,16 +36,19 @@ public class BuildClass {
 		case 3:
 			AlgorithmOutput.basicEncryptoAlgorithm(data);
 			break;
+		case 4:
+			AlgorithmOutput.caesarAlgorithm(data);
+			break;
 		default:
 			System.out.println("\nAlgorithm not available/ incorrect option");
 
 		}
 	}
-	
+
 	public static void additionOfAlgorithm() throws Exception {
 		System.out.println("Do you want to add a new algoritm? (Y/N)");
 		String option = input.next();
-		if(option.equals("Y"))
+		if (option.equals("Y"))
 			algorithmList.addAlgorithm();
 		else
 			algorithmList.listOfAlgorithms();

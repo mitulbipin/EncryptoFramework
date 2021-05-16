@@ -5,6 +5,7 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.Signature;
+import java.util.Base64;
 
 import javax.crypto.Cipher;
 import javax.xml.parsers.DocumentBuilder;
@@ -122,5 +123,31 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
 
 		return sign_UserInput.verify(signature_BackendValue);
 
+	}
+
+	@Override
+	public String encryptCaesarAlgorithm(String data) {
+		final int OFFSET = 4;
+
+		String b64encoded = Base64.getEncoder().encodeToString(data.getBytes());
+		String reverse = new StringBuffer(b64encoded).reverse().toString();
+		StringBuilder tmp = new StringBuilder();
+
+		for (int i = 0; i < reverse.length(); i++) {
+			tmp.append((char) (reverse.charAt(i) + OFFSET));
+		}
+		return tmp.toString();
+	}
+
+	@Override
+	public String decryptCaesarAlgorithm(String data) {
+		StringBuilder tmp = new StringBuilder();
+		final int OFFSET = 4;
+		for (int i = 0; i < data.length(); i++) {
+			tmp.append((char) (data.charAt(i) - OFFSET));
+		}
+
+		String reversed = new StringBuffer(tmp.toString()).reverse().toString();
+		return new String(Base64.getDecoder().decode(reversed));
 	}
 }
