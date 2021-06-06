@@ -31,7 +31,8 @@ public class algorithmList {
 			//SQL Database will be invoked
 
 		} else {
-			System.out.println("Incorrect password");
+			System.out.println("Incorrect password\n");
+			listOfAlgorithms();
 		}
 	}
 
