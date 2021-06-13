@@ -1,12 +1,15 @@
 package com.java.security.framework.encrypto;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.Signature;
 import java.util.Base64;
+import java.util.Properties;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -24,6 +27,8 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
 
 	File fXmlFile = new File("testdata.xml");
 	DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+	Properties prop = new Properties();
+	InputStream input = null;
 
 	@Override
 	public byte[] encrypt_BasicCrypto(byte[] data) {
@@ -89,15 +94,11 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
 
 	public boolean generateAndVerifyDigitalSignatures(String data) throws Exception {
 
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		Document doc = dBuilder.parse(fXmlFile);
-		doc.getDocumentElement().normalize();
-		NodeList nList = doc.getElementsByTagName(ConstantsUtils.AlgorithmText);
-		Node nNode = nList.item(2);
-		Element eElement = (Element) nNode;
-
+		input = new FileInputStream("resources/framework.properties");
+		prop.load(input);
+		
 		KeyPairGenerator keyPairGen = KeyPairGenerator
-				.getInstance(eElement.getElementsByTagName("DSAText").item(0).getTextContent());
+				.getInstance(prop.getProperty("framework.encryption.type"));
 		keyPairGen.initialize(2048);
 		KeyPair pair = keyPairGen.generateKeyPair();
 		PrivateKey privKey_UserInput = pair.getPrivate();
@@ -110,7 +111,7 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
 		sign_BackendValue.initSign(privKey_BackendValue);
 
 		byte[] bytes_UserInput = data.getBytes();
-		byte[] bytes_BackendValue = eElement.getElementsByTagName("Value").item(0).getTextContent().getBytes();
+		byte[] bytes_BackendValue = prop.getProperty("framework.admin.password").getBytes();
 
 		sign_UserInput.update(bytes_UserInput);
 		sign_BackendValue.update(bytes_BackendValue);
