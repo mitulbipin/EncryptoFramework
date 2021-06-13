@@ -29,7 +29,7 @@ public class algorithmList {
 		String data = input.next();
 		if (crypto.generateAndVerifyDigitalSignatures(data)) {
 			//SQL Database will be invoked
-
+			System.out.println("Success");
 		} else {
 			System.out.println("Incorrect password\n");
 			listOfAlgorithms();

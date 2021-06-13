@@ -14,8 +14,10 @@ public class BuildClass {
 	public static void main(String args[]) throws Exception {
 		System.out.println(ConstantsUtils.frameworkTitle);
 		System.out.println(ConstantsUtils.frameworkLines_Horizontal);
+		
 		System.out.print("\n" + ConstantsUtils.inputText);
 		data = input.next();
+		
 		BuildClassMethods.additionOfAlgorithm();
 		System.out.println("\n" + ConstantsUtils.frameworkLines_Horizontal);
 		BuildClassMethods.algorithmSelector(data);

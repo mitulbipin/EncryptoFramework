@@ -8,7 +8,7 @@ public class ConstantsUtils {
 	public final static String inputText = "Enter the text to be encrypted: ";
 	public final static String userInputText = "Please choose the encryption type from the list: ";
 	public final static String AlgorithmNotAvailableText="Algorithm not available/ incorrect option";
-	public final static String AddNewAlgorithmText="AlgorithmNotAvailableText";
+	public final static String AddNewAlgorithmText="Do you want to add a new algorithm (Y/N)?: ";
 	public final static String AlgorithmText = "Algorithm";
 
 	//Encryption Algorithm related strings
