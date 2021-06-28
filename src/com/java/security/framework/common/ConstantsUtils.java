@@ -18,5 +18,6 @@ public class ConstantsUtils {
 	public static final String RSAlgorithmText = "RSA Algorithm";
 	public static final String CaesarAlgorithmText = "Caesar Algorithm";
 	public static final String BlowfishAlgorithmText = "BlowFish Algorithm";
+	public static final String Base64AlgorithmText = "Base 64 Encryption";
 
 }

@@ -40,4 +40,9 @@ public class AlgorithmOutput {
 				+ crypto.encryptBlowfishAlgorithm(data));
 	}
 	
+	public static void base64Encryption(String data) {
+		System.out.println("\nThe encrypted text in " + ConstantsUtils.Base64AlgorithmText + " is "
+				+ crypto.encryptBase64Algorithm(data));
+	}
+	
 }

@@ -96,9 +96,8 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
 
 		input = new FileInputStream("resources/framework.properties");
 		prop.load(input);
-		
-		KeyPairGenerator keyPairGen = KeyPairGenerator
-				.getInstance(prop.getProperty("framework.encryption.type"));
+
+		KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance(prop.getProperty("framework.encryption.type"));
 		keyPairGen.initialize(2048);
 		KeyPair pair = keyPairGen.generateKeyPair();
 		PrivateKey privKey_UserInput = pair.getPrivate();
@@ -177,4 +176,31 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
 		return new String(decrypted, Charset.forName("UTF-8"));
 
 	}
+
+	@Override
+	public String encryptBase64Algorithm(String data) {
+
+		String b64encoded = Base64.getEncoder().encodeToString(data.getBytes());
+		String reverse = new StringBuffer(b64encoded).reverse().toString();
+
+		StringBuilder tmp = new StringBuilder();
+		final int OFFSET = 4;
+		for (int i = 0; i < reverse.length(); i++) {
+			tmp.append((char) (reverse.charAt(i) + OFFSET));
+		}
+		return tmp.toString();
+	}
+
+	@Override
+	public String decryptBase64Algorithm(String data) {
+		StringBuilder tmp = new StringBuilder();
+		final int OFFSET = 4;
+		for (int i = 0; i < data.length(); i++) {
+			tmp.append((char) (data.charAt(i) - OFFSET));
+		}
+
+		String reversed = new StringBuffer(tmp.toString()).reverse().toString();
+		return new String(Base64.getMimeDecoder().decode(reversed));
+	}
+
 }

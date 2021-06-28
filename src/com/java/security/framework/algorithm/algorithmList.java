@@ -18,6 +18,7 @@ public class algorithmList {
 		algorithmList.put("3", ConstantsUtils.BasicEncryptoText);
 		algorithmList.put("4", ConstantsUtils.CaesarAlgorithmText);
 		algorithmList.put("5", ConstantsUtils.BlowfishAlgorithmText);
+		algorithmList.put("6", ConstantsUtils.Base64AlgorithmText);
 		
 		System.out.println("\nList of algorithms available:");
 		for (String i : algorithmList.keySet())

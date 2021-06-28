@@ -20,5 +20,9 @@ public interface IEncryptionDeclaration {
 	String encryptBlowfishAlgorithm(String data) throws Exception;
 
 	String decryptBlowfishAlgorithm(String data) throws Exception;
+	
+	String encryptBase64Algorithm(String data);
+	
+	String decryptBase64Algorithm(String data);
 
 }

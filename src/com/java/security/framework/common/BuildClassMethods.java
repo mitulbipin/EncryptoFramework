@@ -28,6 +28,9 @@ public class BuildClassMethods {
 		case 5:
 			AlgorithmOutput.blowFishAlgorithm(data);
 			break;
+		case 6:
+			AlgorithmOutput.base64Encryption(data);
+			break;
 		default:
 			System.out.println("\n" + ConstantsUtils.AlgorithmNotAvailableText);
 
