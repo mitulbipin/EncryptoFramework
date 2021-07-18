@@ -43,7 +43,5 @@ public class BuildClassMethods {
 		String option = input.next();
 		if (option.equals("Y"))
 			algorithmList.addAlgorithm();
-		else
-			algorithmList.listOfAlgorithms();
 	}
 }

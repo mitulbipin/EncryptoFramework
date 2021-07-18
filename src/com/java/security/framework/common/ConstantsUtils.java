@@ -10,6 +10,7 @@ public class ConstantsUtils {
 	public final static String AlgorithmNotAvailableText="Algorithm not available/ incorrect option";
 	public final static String AddNewAlgorithmText="Do you want to add a new algorithm (Y/N)?: ";
 	public final static String AlgorithmText = "Algorithm";
+	public final static String RepetitionText = "Do you want to encrypt another text?(Y/N)";
 
 	//Encryption Algorithm related strings
 	public static final String BasicEncryptoText = "Basic Encrypto Algorithm";
