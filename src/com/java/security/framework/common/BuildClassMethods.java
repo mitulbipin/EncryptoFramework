@@ -10,7 +10,8 @@ public class BuildClassMethods {
 	static int option;
 
 	public static void algorithmSelector(String data) throws Exception {
-//		System.out.print("\n" + ConstantsUtils.userInputText);
+		algorithmList.listOfAlgorithms();
+		System.out.print("\n" + ConstantsUtils.userInputText);
 		option = input.nextInt();
 		switch (option) {
 		case 1:

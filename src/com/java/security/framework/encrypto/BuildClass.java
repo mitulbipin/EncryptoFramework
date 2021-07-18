@@ -8,7 +8,7 @@ import com.java.security.framework.common.ConstantsUtils;
 public class BuildClass {
 
 	static Scanner input = new Scanner(System.in).useDelimiter("\n");
-	static IEncryptionImpl crypto = new IEncryptionImpl();
+//	static IEncryptionImpl crypto = new IEncryptionImpl();
 	static String data;
 
 	public static void main(String args[]) throws Exception {
@@ -18,8 +18,8 @@ public class BuildClass {
 		System.out.print("\n" + ConstantsUtils.inputText);
 		data = input.next();
 		
-		BuildClassMethods.additionOfAlgorithm();
-		System.out.println("\n" + ConstantsUtils.frameworkLines_Horizontal);
+		BuildClassMethods.additionOfAlgorithm(); //Password field
+//		System.out.println("\n" + ConstantsUtils.frameworkLines_Horizontal);
 		BuildClassMethods.algorithmSelector(data);
 	}
 
