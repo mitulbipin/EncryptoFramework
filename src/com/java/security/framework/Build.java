@@ -1,12 +1,11 @@
-package com.java.security.framework.encrypto;
-
-import java.util.Scanner;
+package com.java.security.framework;
 
 import com.java.security.framework.common.BuildClassMethods;
 import com.java.security.framework.common.ConstantsUtils;
 
-public class BuildClass {
+import java.util.Scanner;
 
+public class Build {
     static Scanner input = new Scanner(System.in).useDelimiter("\n");
     //	static IEncryptionImpl crypto = new IEncryptionImpl();
     static String data, repetitionOption;
@@ -28,5 +27,4 @@ public class BuildClass {
             repetitionOption = input.next();
         } while (repetitionOption.equals("Y"));
     }
-
 }
