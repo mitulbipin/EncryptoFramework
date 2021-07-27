@@ -3,6 +3,7 @@ package com.java.security.framework.encrypto;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.util.Base64;
 import java.util.Properties;
@@ -104,7 +105,6 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
         sign_BackendValue.update(bytes_BackendValue);
 
         return sign_UserInput.verify(signature_BackendValue);
-
     }
 
     @Override
@@ -129,7 +129,6 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
         cipher.init(Cipher.ENCRYPT_MODE, key);
 
         return Base64.getEncoder().encodeToString(cipher.doFinal(data.getBytes()));
-
     }
 
     @Override
@@ -155,8 +154,8 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
         keyGen.init(128);
 
         Cipher aesCipher = Cipher.getInstance(AES_TYPE); //The encryption type needs to be mentioned
-        SecretKey secretKey = keyGen.generateKey();
 
+        SecretKey secretKey = keyGen.generateKey();
         SecureRandom secureRandom = new SecureRandom();
         byte[] bytes = new byte[AES_LENGTH / 8];
         secureRandom.nextBytes(bytes);
@@ -166,12 +165,16 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
         byte[] byteDataToEncrypt = data.getBytes();
         byte[] byteCipherText = aesCipher.doFinal(byteDataToEncrypt);
 
-        String test1 = Base64.getEncoder().withoutPadding().encodeToString(byteCipherText);
-        String test2 = String.valueOf(AES_LENGTH);
+        String encryptedText = Base64.getEncoder().withoutPadding().encodeToString(byteCipherText);
+        String keyLength = String.valueOf(AES_LENGTH);
 
-        String[] test = {test1, test2};
+        Cipher aesCipherForDecryption = Cipher.getInstance(AES_TYPE);
+        aesCipherForDecryption.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(bytes));
+        byte[] byteOfDecryptedText = aesCipherForDecryption.doFinal(byteCipherText);
+        String decryptedText = new String(byteOfDecryptedText);
 
-        return test;
+
+        return new String[]{encryptedText, keyLength, decryptedText};
 
     }
 

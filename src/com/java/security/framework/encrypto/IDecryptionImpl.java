@@ -66,8 +66,5 @@ public class IDecryptionImpl implements IDecryptionDeclaration {
         return new String(Base64.getMimeDecoder().decode(reversed));
     }
 
-    @Override
-    public String decryptAesEncryptionAlgorithm(String data) {
-        return null;
-    }
+
 }
