@@ -5,4 +5,8 @@
 		<RSAText>RSA</RSAText>
 		<cipherInstance>RSA/ECB/PKCS1Padding</cipherInstance>
 	</Algorithm>
+	<Algorithm id="7">
+		<AesEncryptionKeyLength>128</AesEncryptionKeyLength>
+		<AesCipherInstance>AES/CBC/PKCS5Padding</AesCipherInstance>
+	</Algorithm>
 </testdata>

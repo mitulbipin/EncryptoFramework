@@ -20,5 +20,9 @@ public class ConstantsUtils {
 	public static final String CaesarAlgorithmText = "Caesar Algorithm";
 	public static final String BlowfishAlgorithmText = "BlowFish Algorithm";
 	public static final String Base64AlgorithmText = "Base 64 Encryption";
+	public static final String AesText = "AES";
+	public static final String AesEncryptionText = "AES Encryption";
+	public static final int keyLength128 = 128;
+	public static final String AesCbcPkc5s="AES/CBC/PKCS5PADDING";
 
 }
