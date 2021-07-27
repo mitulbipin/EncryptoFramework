@@ -11,4 +11,6 @@ public interface IDecryptionDeclaration {
     String decryptBlowfishAlgorithm(String data) throws Exception;
 
     String decryptBase64Algorithm(String data);
+
+    String decryptAesEncryptionAlgorithm(String data);
 }

@@ -3,14 +3,14 @@ package com.java.security.framework.encrypto;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.PrivateKey;
-import java.security.Signature;
+import java.security.*;
 import java.util.Base64;
 import java.util.Properties;
 
 import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -147,9 +147,32 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
     }
 
     @Override
-    public String encryptAesEncryptionAlgorithm(String data) {
-        return null;
-    }
+    public String[] encryptAesEncryptionAlgorithm(String data) throws Exception {
 
+        int AES_LENGTH = ConstantsUtils.keyLength128;
+        final String AES_TYPE = ConstantsUtils.AesCbcPkc5s;
+        KeyGenerator keyGen = KeyGenerator.getInstance(ConstantsUtils.AesText);
+        keyGen.init(128);
+
+        Cipher aesCipher = Cipher.getInstance(AES_TYPE); //The encryption type needs to be mentioned
+        SecretKey secretKey = keyGen.generateKey();
+
+        SecureRandom secureRandom = new SecureRandom();
+        byte[] bytes = new byte[AES_LENGTH / 8];
+        secureRandom.nextBytes(bytes);
+
+        aesCipher.init(Cipher.ENCRYPT_MODE, secretKey, new IvParameterSpec(bytes));
+
+        byte[] byteDataToEncrypt = data.getBytes();
+        byte[] byteCipherText = aesCipher.doFinal(byteDataToEncrypt);
+
+        String test1 = Base64.getEncoder().withoutPadding().encodeToString(byteCipherText);
+        String test2 = String.valueOf(AES_LENGTH);
+
+        String[] test = {test1, test2};
+
+        return test;
+
+    }
 
 }

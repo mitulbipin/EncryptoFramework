@@ -7,7 +7,6 @@ import java.util.Scanner;
 
 public class Build {
     static Scanner input = new Scanner(System.in).useDelimiter("\n");
-    //	static IEncryptionImpl crypto = new IEncryptionImpl();
     static String data, repetitionOption;
     private static int count = 0;
 
