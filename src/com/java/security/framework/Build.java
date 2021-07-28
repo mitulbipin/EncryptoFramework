@@ -1,6 +1,6 @@
 package com.java.security.framework;
 
-import com.java.security.framework.common.BuildClassMethods;
+import com.java.security.framework.common.commonMethods;
 import com.java.security.framework.common.ConstantsUtils;
 
 import java.util.Scanner;
@@ -18,9 +18,9 @@ public class Build {
             data = input.next();
 
             if (count != 1)
-                BuildClassMethods.additionOfAlgorithm(); //Password field
+                commonMethods.additionOfAlgorithm(); //Password field
 
-            BuildClassMethods.algorithmSelector(data);
+            commonMethods.algorithmSelector(data);
             count++;
             System.out.print("\n" + ConstantsUtils.RepetitionText);
             repetitionOption = input.next();
