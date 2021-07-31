@@ -7,10 +7,10 @@ import java.util.Scanner;
 
 public class Build {
     static Scanner input = new Scanner(System.in).useDelimiter("\n");
-    static String data, repetitionOption;
+    public static String data, repetitionOption;
     private static int count = 0;
 
-    public static void main(String args[]) throws Exception {
+    public static void main(String[] args) throws Exception {
         System.out.println(ConstantsUtils.frameworkTitle);
         System.out.println(ConstantsUtils.frameworkLines_Horizontal);
         do {
