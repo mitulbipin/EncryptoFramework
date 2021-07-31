@@ -3,7 +3,6 @@ package com.java.security.framework.encrypto;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.util.Base64;
 import java.util.Properties;
@@ -29,29 +28,32 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     Properties prop = new Properties();
     InputStream input = null;
+    String[] result;
 
     @Override
     public byte[] encrypt_BasicCrypto(byte[] data) {
-        byte[] enc = new byte[data.length];
 
-        for (int i = 0; i < data.length; i++) {
+        byte[] enc = new byte[data.length];
+        for (int i = 0; i < data.length; i++)
             enc[i] = (byte) ((i % 2 == 0) ? data[i] + 1 : data[i] - 1);
-        }
+
         return enc;
     }
 
-
     @Override
-    public String encrypt_SubstitutionAlgorithm(String data) {
+    public String[] encrypt_SubstitutionAlgorithm(String data) {
         StringBuilder sb = new StringBuilder(data.length());
 
         for (char c : data.toCharArray())
             sb.append(ConstantsUtils.SubstitutionAlgoKeys.charAt((int) c - 32));
 
-        return sb.toString();
+        String decryptedText =  IDecryptionImpl.decrypt_SubstitutionAlgorithm(sb.toString());
+        result = new String[]{sb.toString(), decryptedText};
 
+        return result;
     }
 
+    //Decryption not available as of now.
     public String encrypt_RSAEncryption(String data) throws Exception {
 
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -73,6 +75,7 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
         return new String(cipherText, "UTF-8");
     }
 
+    //To be moved to commonMethods folder
     public boolean generateAndVerifyDigitalSignatures(String data) throws Exception {
 
         input = new FileInputStream("resources/framework.properties");
@@ -108,7 +111,7 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
     }
 
     @Override
-    public String encryptCaesarAlgorithm(String data) {
+    public String[] encryptCaesarAlgorithm(String data) {
         final int OFFSET = 4;
 
         String b64encoded = Base64.getEncoder().encodeToString(data.getBytes());
@@ -118,21 +121,27 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
         for (int i = 0; i < reverse.length(); i++) {
             tmp.append((char) (reverse.charAt(i) + OFFSET));
         }
-        return tmp.toString();
+
+        result = new String[]{tmp.toString(), IDecryptionImpl.decryptCaesarAlgorithm(tmp.toString())};
+
+        return result;
     }
 
     @Override
-    public String encryptBlowfishAlgorithm(String data) throws Exception {
+    public String[] encryptBlowfishAlgorithm(String data) throws Exception {
 
         SecretKeySpec key = new SecretKeySpec(data.getBytes(), "Blowfish");
         Cipher cipher = Cipher.getInstance("Blowfish");
         cipher.init(Cipher.ENCRYPT_MODE, key);
+        String encryptedText = Base64.getEncoder().encodeToString(cipher.doFinal(data.getBytes()));
 
-        return Base64.getEncoder().encodeToString(cipher.doFinal(data.getBytes()));
+        result = new String[]{encryptedText, IDecryptionImpl.decryptCaesarAlgorithm(encryptedText)};
+
+        return result;
     }
 
     @Override
-    public String encryptBase64Algorithm(String data) {
+    public String[] encryptBase64Algorithm(String data) {
 
         String b64encoded = Base64.getEncoder().encodeToString(data.getBytes());
         String reverse = new StringBuffer(b64encoded).reverse().toString();
@@ -142,10 +151,16 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
         for (int i = 0; i < reverse.length(); i++) {
             tmp.append((char) (reverse.charAt(i) + OFFSET));
         }
-        return tmp.toString();
+
+        result = new String[]{tmp.toString(), IDecryptionImpl.decryptBase64Algorithm(tmp.toString())};
+
+        return result;
+
     }
 
     @Override
+    //Encryption and Decryption are in the same method since it's a symmetrical encryption.
+    //secretKey is an object which cannot be returned along with a String.
     public String[] encryptAesEncryptionAlgorithm(String data) throws Exception {
 
         int AES_LENGTH = ConstantsUtils.keyLength128;

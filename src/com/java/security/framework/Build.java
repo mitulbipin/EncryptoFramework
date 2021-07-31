@@ -1,16 +1,16 @@
 package com.java.security.framework;
 
-import com.java.security.framework.common.BuildClassMethods;
+import com.java.security.framework.common.commonMethods;
 import com.java.security.framework.common.ConstantsUtils;
 
 import java.util.Scanner;
 
 public class Build {
     static Scanner input = new Scanner(System.in).useDelimiter("\n");
-    static String data, repetitionOption;
+    public static String data, repetitionOption;
     private static int count = 0;
 
-    public static void main(String args[]) throws Exception {
+    public static void main(String[] args) throws Exception {
         System.out.println(ConstantsUtils.frameworkTitle);
         System.out.println(ConstantsUtils.frameworkLines_Horizontal);
         do {
@@ -18,9 +18,9 @@ public class Build {
             data = input.next();
 
             if (count != 1)
-                BuildClassMethods.additionOfAlgorithm(); //Password field
+                commonMethods.additionOfAlgorithm(); //Password field
 
-            BuildClassMethods.algorithmSelector(data);
+            commonMethods.algorithmSelector(data);
             count++;
             System.out.print("\n" + ConstantsUtils.RepetitionText);
             repetitionOption = input.next();

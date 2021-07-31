@@ -1,26 +1,26 @@
 package com.java.security.framework.encrypto;
 
 import com.java.security.framework.common.ConstantsUtils;
+import com.java.security.framework.algorithm.AlgorithmOutput;
+
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-public class IDecryptionImpl implements IDecryptionDeclaration {
+public class IDecryptionImpl {
 
-    @Override
-    public byte[] decrypt_BasicCrypto(byte[] data) {
+    public static byte[] decrypt_BasicCrypto(byte[] data) {
+
         byte[] enc = new byte[data.length];
-
         for (int i = 0; i < data.length; i++) {
             enc[i] = (byte) ((i % 2 == 0) ? data[i] - 1 : data[i] + 1);
         }
         return enc;
     }
 
-    @Override
-    public String decrypt_SubstitutionAlgorithm(String data) {
+    public static String decrypt_SubstitutionAlgorithm(String data) {
         StringBuilder sb = new StringBuilder(data.length());
 
         for (char c : data.toCharArray())
@@ -29,8 +29,7 @@ public class IDecryptionImpl implements IDecryptionDeclaration {
         return sb.toString();
     }
 
-    @Override
-    public String decryptCaesarAlgorithm(String data) {
+    public static String decryptCaesarAlgorithm(String data) {
         StringBuilder tmp = new StringBuilder();
         final int OFFSET = 4;
         for (int i = 0; i < data.length(); i++) {
@@ -41,21 +40,18 @@ public class IDecryptionImpl implements IDecryptionDeclaration {
         return new String(Base64.getDecoder().decode(reversed));
     }
 
-    @Override
     public String decryptBlowfishAlgorithm(String data) throws Exception {
 
         SecretKeySpec key = new SecretKeySpec(data.getBytes(), "Blowfish");
         Cipher cipher = Cipher.getInstance("Blowfish");
         cipher.init(Cipher.DECRYPT_MODE, key);
-        byte[] ecryptedtexttobytes = Base64.getDecoder().decode(data);
-        byte[] decrypted = cipher.doFinal(ecryptedtexttobytes);
+        byte[] encryptedTextToBytes = Base64.getDecoder().decode(data);
+        byte[] decrypted = cipher.doFinal(encryptedTextToBytes);
 
-        return new String(decrypted, Charset.forName("UTF-8"));
-
+        return new String(decrypted, StandardCharsets.UTF_8);
     }
 
-    @Override
-    public String decryptBase64Algorithm(String data) {
+    public static String decryptBase64Algorithm(String data) {
         StringBuilder tmp = new StringBuilder();
         final int OFFSET = 4;
         for (int i = 0; i < data.length(); i++) {
