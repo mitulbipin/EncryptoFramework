@@ -1,12 +1,7 @@
 package com.java.security.framework.encrypto;
 
 import com.java.security.framework.common.ConstantsUtils;
-import com.java.security.framework.algorithm.AlgorithmOutput;
 
-
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 public class IDecryptionImpl {
@@ -40,17 +35,6 @@ public class IDecryptionImpl {
         return new String(Base64.getDecoder().decode(reversed));
     }
 
-    public String decryptBlowfishAlgorithm(String data) throws Exception {
-
-        SecretKeySpec key = new SecretKeySpec(data.getBytes(), "Blowfish");
-        Cipher cipher = Cipher.getInstance("Blowfish");
-        cipher.init(Cipher.DECRYPT_MODE, key);
-        byte[] encryptedTextToBytes = Base64.getDecoder().decode(data);
-        byte[] decrypted = cipher.doFinal(encryptedTextToBytes);
-
-        return new String(decrypted, StandardCharsets.UTF_8);
-    }
-
     public static String decryptBase64Algorithm(String data) {
         StringBuilder tmp = new StringBuilder();
         final int OFFSET = 4;
@@ -61,6 +45,5 @@ public class IDecryptionImpl {
         String reversed = new StringBuffer(tmp.toString()).reverse().toString();
         return new String(Base64.getMimeDecoder().decode(reversed));
     }
-
 
 }

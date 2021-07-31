@@ -1,43 +1,42 @@
 package com.java.security.framework.encrypto;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.util.Base64;
-import java.util.Properties;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+//import javax.xml.parsers.DocumentBuilder;
+//import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+//import org.w3c.dom.Document;
+//import org.w3c.dom.Element;
+//import org.w3c.dom.Node;
+//import org.w3c.dom.NodeList;
 
 import com.java.security.framework.common.ConstantsUtils;
 
 public class IEncryptionImpl implements IEncryptionDeclaration {
 
-    File fXmlFile = new File("testdata.xml");
-    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-    Properties prop = new Properties();
-    InputStream input = null;
+//    File fXmlFile = new File("testdata.xml");
+//    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+
     String[] result;
 
     @Override
-    public byte[] encrypt_BasicCrypto(byte[] data) {
+    public String[] encrypt_BasicCrypto(byte[] data) {
 
         byte[] enc = new byte[data.length];
         for (int i = 0; i < data.length; i++)
             enc[i] = (byte) ((i % 2 == 0) ? data[i] + 1 : data[i] - 1);
 
-        return enc;
+        String encryptedText = new String(enc);
+        String decryptedText = new String(IDecryptionImpl.decrypt_BasicCrypto(enc));
+
+        return new String[]{encryptedText,decryptedText};
     }
 
     @Override
@@ -53,61 +52,26 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
         return result;
     }
 
-    //Decryption not available as of now.
-    public String encrypt_RSAEncryption(String data) throws Exception {
+    public String[] encrypt_RSAEncryption(String data) throws Exception {
 
-        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-        Document doc = dBuilder.parse(fXmlFile);
-        doc.getDocumentElement().normalize();
-        NodeList nList = doc.getElementsByTagName(ConstantsUtils.AlgorithmText);
-        Node nNode = nList.item(1);
-        Element eElement = (Element) nNode;
-
-        KeyPairGenerator keyPairGen = KeyPairGenerator
-                .getInstance(eElement.getElementsByTagName("RSAText").item(0).getTextContent());
+        KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance("RSA");
         keyPairGen.initialize(2048);
         KeyPair pair = keyPairGen.generateKeyPair();
-        Cipher cipher = Cipher.getInstance(eElement.getElementsByTagName("cipherInstance").item(0).getTextContent());
+
+        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         cipher.init(Cipher.ENCRYPT_MODE, pair.getPublic());
         byte[] input = data.getBytes();
         cipher.update(input);
         byte[] cipherText = cipher.doFinal();
-        return new String(cipherText, "UTF-8");
-    }
 
-    //To be moved to commonMethods folder
-    public boolean generateAndVerifyDigitalSignatures(String data) throws Exception {
+        Cipher cipherDecrypt = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+        cipherDecrypt.init(Cipher.DECRYPT_MODE, pair.getPrivate());
+        byte[] decrypt = cipherDecrypt.doFinal(cipherText);
 
-        input = new FileInputStream("resources/framework.properties");
-        prop.load(input);
+        String encryptedText = new String(cipherText, StandardCharsets.UTF_8);
+        String DecryptedText = new String(decrypt, StandardCharsets.UTF_8);
 
-        KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance(prop.getProperty("framework.encryption.type"));
-        keyPairGen.initialize(2048);
-        KeyPair pair = keyPairGen.generateKeyPair();
-        PrivateKey privKey_UserInput = pair.getPrivate();
-        PrivateKey privKey_BackendValue = pair.getPrivate();
-
-        Signature sign_UserInput = Signature.getInstance("SHA256withDSA");
-        Signature sign_BackendValue = Signature.getInstance("SHA256withDSA");
-
-        sign_UserInput.initSign(privKey_UserInput);
-        sign_BackendValue.initSign(privKey_BackendValue);
-
-        byte[] bytes_UserInput = data.getBytes();
-        byte[] bytes_BackendValue = prop.getProperty("framework.admin.password").getBytes();
-
-        sign_UserInput.update(bytes_UserInput);
-        sign_BackendValue.update(bytes_BackendValue);
-
-        byte[] signature_BackendValue = sign_BackendValue.sign();
-
-        sign_UserInput.initVerify(pair.getPublic());
-        sign_BackendValue.initVerify(pair.getPublic());
-        sign_UserInput.update(bytes_UserInput);
-        sign_BackendValue.initVerify(pair.getPublic());
-        sign_BackendValue.update(bytes_BackendValue);
-
-        return sign_UserInput.verify(signature_BackendValue);
+        return new String[] {encryptedText,DecryptedText};
     }
 
     @Override
@@ -128,6 +92,8 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
     }
 
     @Override
+    //Encryption and Decryption are in the same method since it's a symmetrical encryption.
+    //secretKey is an object which cannot be returned along with a String.
     public String[] encryptBlowfishAlgorithm(String data) throws Exception {
 
         SecretKeySpec key = new SecretKeySpec(data.getBytes(), "Blowfish");
@@ -135,9 +101,14 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
         cipher.init(Cipher.ENCRYPT_MODE, key);
         String encryptedText = Base64.getEncoder().encodeToString(cipher.doFinal(data.getBytes()));
 
-        result = new String[]{encryptedText, IDecryptionImpl.decryptCaesarAlgorithm(encryptedText)};
+        Cipher cipherToDecrypt = Cipher.getInstance("Blowfish");
+        cipherToDecrypt.init(Cipher.DECRYPT_MODE, key);
 
-        return result;
+        byte[] encryptedTextToBytes = Base64.getDecoder().decode(encryptedText);
+        byte[] decrypted = cipherToDecrypt.doFinal(encryptedTextToBytes);
+
+        String decryptedText = new String(decrypted, StandardCharsets.UTF_8);
+       return new String[]{encryptedText, decryptedText};
     }
 
     @Override
@@ -155,7 +126,6 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
         result = new String[]{tmp.toString(), IDecryptionImpl.decryptBase64Algorithm(tmp.toString())};
 
         return result;
-
     }
 
     @Override
@@ -188,9 +158,6 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
         byte[] byteOfDecryptedText = aesCipherForDecryption.doFinal(byteCipherText);
         String decryptedText = new String(byteOfDecryptedText);
 
-
         return new String[]{encryptedText, keyLength, decryptedText};
-
     }
-
 }

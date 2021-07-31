@@ -1,15 +1,12 @@
 package com.java.security.framework.encrypto;
 
-import java.security.NoSuchAlgorithmException;
-
 public interface IEncryptionDeclaration {
-    byte[] encrypt_BasicCrypto(byte[] data);
+
+    String[] encrypt_BasicCrypto(byte[] data);
 
     String[] encrypt_SubstitutionAlgorithm(String data);
 
-    String encrypt_RSAEncryption(String data) throws Exception;
-
-    boolean generateAndVerifyDigitalSignatures(String data) throws Exception;
+    String[] encrypt_RSAEncryption(String data) throws Exception;
 
     String[] encryptCaesarAlgorithm(String data);
 
@@ -17,5 +14,5 @@ public interface IEncryptionDeclaration {
 
     String[] encryptBase64Algorithm(String data);
 
-    String[] encryptAesEncryptionAlgorithm(String data) throws NoSuchAlgorithmException, Exception;
+    String[] encryptAesEncryptionAlgorithm(String data) throws Exception;
 }
