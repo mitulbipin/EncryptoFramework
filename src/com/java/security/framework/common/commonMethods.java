@@ -1,5 +1,12 @@
 package com.java.security.framework.common;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.PrivateKey;
+import java.security.Signature;
+import java.util.Properties;
 import java.util.Scanner;
 
 import com.java.security.framework.algorithm.AlgorithmOutput;
@@ -63,5 +70,39 @@ public class commonMethods {
             System.out.println("Decryption not available");
         }
 
+    }
+
+    public static boolean generateAndVerifyDigitalSignatures(String data) throws Exception {
+        InputStream input = new FileInputStream("resources/framework.properties");
+        Properties prop = new Properties();
+        prop.load(input);
+
+        KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance(prop.getProperty("framework.encryption.type"));
+        keyPairGen.initialize(2048);
+        KeyPair pair = keyPairGen.generateKeyPair();
+        PrivateKey privKey_UserInput = pair.getPrivate();
+        PrivateKey privKey_BackendValue = pair.getPrivate();
+
+        Signature sign_UserInput = Signature.getInstance("SHA256withDSA");
+        Signature sign_BackendValue = Signature.getInstance("SHA256withDSA");
+
+        sign_UserInput.initSign(privKey_UserInput);
+        sign_BackendValue.initSign(privKey_BackendValue);
+
+        byte[] bytes_UserInput = data.getBytes();
+        byte[] bytes_BackendValue = prop.getProperty("framework.admin.password").getBytes();
+
+        sign_UserInput.update(bytes_UserInput);
+        sign_BackendValue.update(bytes_BackendValue);
+
+        byte[] signature_BackendValue = sign_BackendValue.sign();
+
+        sign_UserInput.initVerify(pair.getPublic());
+        sign_BackendValue.initVerify(pair.getPublic());
+        sign_UserInput.update(bytes_UserInput);
+        sign_BackendValue.initVerify(pair.getPublic());
+        sign_BackendValue.update(bytes_BackendValue);
+
+        return sign_UserInput.verify(signature_BackendValue);
     }
 }

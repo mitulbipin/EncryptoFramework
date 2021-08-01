@@ -14,8 +14,8 @@ public class AlgorithmOutput {
 
         commonMethods.algorithmOutputMethod(
                 ConstantsUtils.BasicEncryptoText,
-                new String(crypto.encrypt_BasicCrypto(data.getBytes())),
-                null);
+                crypto.encrypt_BasicCrypto(data.getBytes())[0],
+                crypto.encrypt_BasicCrypto(data.getBytes())[1]);
 
     }
 
@@ -28,9 +28,11 @@ public class AlgorithmOutput {
 
     public static void RSAEncryptionAlgorithm(String data) throws Exception {
         commonMethods.algorithmOutputMethod(
-                ConstantsUtils.RSAlgorithmText, crypto.encrypt_RSAEncryption(data), null);
+                ConstantsUtils.RSAlgorithmText,
+                crypto.encrypt_RSAEncryption(data)[0],
+                crypto.encrypt_RSAEncryption(data)[1]);
         FileWriter RSAEncryptionFile = new FileWriter("RSAEncryptionFile.txt");
-        RSAEncryptionFile.write(crypto.encrypt_RSAEncryption(data));
+        RSAEncryptionFile.write(crypto.encrypt_RSAEncryption(data)[0]);
         RSAEncryptionFile.close();
     }
 

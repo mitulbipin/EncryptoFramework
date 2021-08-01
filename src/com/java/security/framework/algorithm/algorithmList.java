@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import com.java.security.framework.common.ConstantsUtils;
+import com.java.security.framework.common.commonMethods;
 import com.java.security.framework.encrypto.IEncryptionImpl;
 
 public class algorithmList {
@@ -29,7 +30,7 @@ public class algorithmList {
     public static void addAlgorithm() throws Exception {
         System.out.print("\nEnter the password:");
         String data = input.next();
-        if (crypto.generateAndVerifyDigitalSignatures(data)) {
+        if (commonMethods.generateAndVerifyDigitalSignatures(data)) {
             //SQL Database will be invoked
             System.out.println("Success");
         } else {
