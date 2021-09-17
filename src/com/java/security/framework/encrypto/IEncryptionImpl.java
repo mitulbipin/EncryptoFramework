@@ -136,7 +136,7 @@ public class IEncryptionImpl implements IEncryptionDeclaration {
         int AES_LENGTH = ConstantsUtils.keyLength128;
         final String AES_TYPE = ConstantsUtils.AesCbcPkc5s;
         KeyGenerator keyGen = KeyGenerator.getInstance(ConstantsUtils.AesText);
-        keyGen.init(128);
+        keyGen.init(128); //128, 192, 256
 
         Cipher aesCipher = Cipher.getInstance(AES_TYPE); //The encryption type needs to be mentioned
 
